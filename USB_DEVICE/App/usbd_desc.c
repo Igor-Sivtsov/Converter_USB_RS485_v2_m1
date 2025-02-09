@@ -35,7 +35,7 @@
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
 
-const uint8_t serial_number[] __attribute__((section(".sn_section"))) = "FORWARD_DYN_00-000-000-00-000";
+uint8_t serial_number[29] __attribute__((section(".sn_section"))) = "FORWARD_DYN_00-000-000-00-000";
 
 /* USER CODE END PV */
 
