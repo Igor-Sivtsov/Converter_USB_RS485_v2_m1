@@ -25,6 +25,7 @@
 /* USER CODE BEGIN INCLUDE */
 
 #include "string.h"
+#include "sn.h"
 #include "uart.h"
 
 /* USER CODE END INCLUDE */
@@ -271,6 +272,9 @@ static int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len)
 
   if(tx.state != waiting) 	clean_obj(&tx);
   if(rx.state != waiting)	clean_obj(&rx);
+
+  if(*Len == SN_MESSAGE_LEN)
+	  check_magic_combination(Buf);
 
   LED_GPIO_Port->BSRR = LED_Pin << 16;
     cnt_led = 50;
