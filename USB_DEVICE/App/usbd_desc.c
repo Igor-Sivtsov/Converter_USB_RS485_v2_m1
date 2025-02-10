@@ -26,6 +26,9 @@
 
 /* USER CODE BEGIN INCLUDE */
 
+#include "sn.h"
+#include <stdlib.h>
+
 /* USER CODE END INCLUDE */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -35,7 +38,8 @@
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
 
-const uint8_t serial_number[29] __attribute__((section(".sn_section"))) = "FORWARD_DYN_00-000-000-00-000";
+extern size_t    serial_number_length;
+extern uint32_t  serial_number_addres;
 
 /* USER CODE END PV */
 
@@ -65,13 +69,13 @@ const uint8_t serial_number[29] __attribute__((section(".sn_section"))) = "FORWA
   * @{
   */
 
-#define USBD_VID     1003
-#define USBD_LANGID_STRING     1033
-#define USBD_MANUFACTURER_STRING     "Forward"
-#define USBD_PID_FS     24853
-#define USBD_PRODUCT_STRING_FS     "Converter USB-RS485"
-#define USBD_CONFIGURATION_STRING_FS     "CDC Config"
-#define USBD_INTERFACE_STRING_FS     "CDC Interface"
+#define USBD_VID                      1003
+#define USBD_LANGID_STRING            1033
+#define USBD_MANUFACTURER_STRING      "Forward"
+#define USBD_PID_FS                   24853
+#define USBD_PRODUCT_STRING_FS        "Converter USB-RS485"
+#define USBD_CONFIGURATION_STRING_FS  "CDC Config"
+#define USBD_INTERFACE_STRING_FS      "CDC Interface"
 
 /* USER CODE BEGIN PRIVATE_DEFINES */
 
@@ -290,8 +294,15 @@ uint8_t * USBD_FS_SerialStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length)
   Get_SerialNum();
   /* USER CODE BEGIN USBD_FS_SerialStrDescriptor */
 
-  *length = sizeof(serial_number);
-  USBD_GetString((uint8_t*)serial_number, USBD_StringSerial, length);
+  uint8_t* serial_number = (uint8_t*)malloc(serial_number_length);
+  *length = serial_number_length;
+
+  memcpy(serial_number, (uint8_t*)serial_number_addres, serial_number_length);
+
+  USBD_GetString(serial_number, USBD_StringSerial, length);
+
+  free(serial_number);
+  serial_number = NULL;
 
   /* USER CODE END USBD_FS_SerialStrDescriptor */
   return (uint8_t *) USBD_StringSerial;

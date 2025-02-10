@@ -24,7 +24,7 @@
 
 /* USER CODE BEGIN INCLUDE */
 
-#include "string.h"
+#include <string.h>
 #include "sn.h"
 #include "uart.h"
 
@@ -37,8 +37,12 @@
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
 
-extern uint8_t cnt_led;
-extern exchange rx, tx;
+extern uint8_t    cnt_led;
+extern exchange   rx, tx;
+extern uint8_t    new_serial_number[];
+extern size_t     serial_number_length;
+extern size_t     serial_number_message_length;
+extern size_t     magic_combination_length;
 
 /* USER CODE END PV */
 
@@ -273,8 +277,19 @@ static int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len)
   if(tx.state != waiting) 	clean_obj(&tx);
   if(rx.state != waiting)	clean_obj(&rx);
 
-  if(*Len == SN_MESSAGE_LEN)
-	  check_magic_combination(Buf);
+  if(*Len == serial_number_message_length && check_magic_combination(Buf))
+  {
+    if(save_new_serial_number(Buf + magic_combination_length))
+    {
+      CDC_Transmit_FS(new_serial_number, serial_number_length);
+      delay(500000);
+
+      NVIC_SystemReset();
+      //return (USBD_OK);
+    }
+    else
+      return (USBD_OK);
+  }
 
   LED_GPIO_Port->BSRR = LED_Pin << 16;
     cnt_led = 50;

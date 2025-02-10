@@ -4,11 +4,8 @@
 #include "main.h"
 #include <stdbool.h>
 
-//#define SN_MESSAGE_LEN           45
-#define SN_MESSAGE_LEN           32
-#define MAGIC_COMBINATION_LEN    32
-
-
 bool check_magic_combination(uint8_t* buf);
+bool save_new_serial_number(uint8_t* buf);
+void delay(uint32_t delay);
 
 #endif /* INC_SN_H_ */
