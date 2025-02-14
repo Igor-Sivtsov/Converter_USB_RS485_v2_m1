@@ -1,5 +1,5 @@
-#include "string.h"
 #include "uart.h"
+#include <string.h>
 
 exchange rx = {}, tx = {};
 uint8_t clean;

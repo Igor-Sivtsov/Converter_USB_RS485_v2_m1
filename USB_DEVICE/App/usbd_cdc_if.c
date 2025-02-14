@@ -24,9 +24,9 @@
 
 /* USER CODE BEGIN INCLUDE */
 
-#include <string.h>
 #include "sn.h"
 #include "uart.h"
+#include <string.h>
 
 /* USER CODE END INCLUDE */
 
@@ -285,7 +285,6 @@ static int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len)
       delay(500000);
 
       NVIC_SystemReset();
-      //return (USBD_OK);
     }
     else
       return (USBD_OK);
