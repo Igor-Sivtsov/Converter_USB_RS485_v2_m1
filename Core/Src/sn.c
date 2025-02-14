@@ -89,5 +89,3 @@ void delay(uint32_t delay)
   for(uint32_t i = 0; i < delay; i++)
 	  __NOP();
 }
-
-
