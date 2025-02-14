@@ -24,9 +24,10 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
-#include "string.h"
+#include "protection.h"
 #include "uart.h"
 #include "usbd_cdc_if.h"
+#include <string.h>
 
 /* USER CODE END Includes */
 
@@ -97,6 +98,8 @@ int main(void)
   MX_USART3_UART_Init();
   MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
+
+  //FlashReadoutProtection();
 
   LED_GPIO_Port->BSRR = LED_Pin;
   USB_CTRL_GPIO_Port->BSRR = USB_CTRL_Pin << 16;

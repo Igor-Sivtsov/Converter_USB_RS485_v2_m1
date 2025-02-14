@@ -186,6 +186,7 @@ void USART3_4_IRQHandler(void)
     {
       if(tx.cnt == tx.buf_len)
       {
+    	// TODO
     	TX_EN_GPIO_Port->BSRR = TX_EN_Pin << 16;
 
     	USART3->CR1 &= ~USART_CR1_TE;
